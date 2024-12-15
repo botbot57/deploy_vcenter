@@ -1,0 +1,48 @@
+- name: Create vSphere Distributed Switch (VDS) and add hosts
+  hosts: localhost
+  gather_facts: no
+  vars_files:
+    - vars.yml
+    - var_host.yml
+    - var_vds.yml
+  tasks:
+    - name: Add ESXi hosts to vSphere Distributed Switch (VDS)
+      community.vmware.vmware_dvs_host:
+        hostname: "{{ vcenter_hostname }}"
+        username: "{{ vcenter_username }}"
+        password: "{{ vcenter_password }}"
+        validate_certs: no
+        switch_name: "dvSwitch"
+        esxi_hostname: '{{ item.ip }}'
+        vmnics:
+            vmnic1
+      register: add_hosts_result
+      loop: '{{ host_esxi }}'
+    - name: Migrate Management vmk
+      community.vmware.vmware_migrate_vmk:
+        hostname: "{{ vcenter_hostname }}"
+        username: "{{ vcenter_username }}"
+        password: "{{ vcenter_password }}"
+        esxi_hostname: "{{ item.ip }}"
+        device: vmk0
+        validate_certs: no
+        current_switch_name: vSwitch0
+        current_portgroup_name: Management Network
+        migrate_switch_name: '{{ migrate_switch_name }}'
+        migrate_portgroup_name: '{{ migrate_portgroup_name }}'
+      delegate_to: localhost
+      loop: '{{ host_esxi }}'
+
+#    - name: Add vmnic0 to VDS
+#      community.vmware.vmware_dvs_host:
+#        hostname: "{{ vcenter_hostname }}"
+#        username: "{{ vcenter_username }}"
+#        password: "{{ vcenter_password }}"
+#        validate_certs: no
+#        switch_name: "dvSwitch"
+#        esxi_hostname: '{{ item.ip }}'
+#        vmnics:
+#          - vmnic0
+#      register: add_hosts_result
+#      loop: '{{ host_esxi }}'
+
