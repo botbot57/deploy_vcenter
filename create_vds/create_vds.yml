@@ -1,0 +1,25 @@
+- name: Create vDS and configure health check
+  hosts: localhost
+  gather_facts: no
+  vars_files:
+    - vars.yml
+    - var_vds.yml
+  tasks:
+    - name: Create dvSwitch with health check options
+      community.vmware.vmware_dvswitch:
+        hostname: '{{ vcenter_hostname }}'
+        username: '{{ vcenter_username }}'
+        password: '{{ vcenter_password }}'
+        datacenter: '{{ datacenter_name }}'
+        switch: '{{ switch_vds }}'
+        version: '{{ version_vds }}'
+        mtu: 9000
+        uplink_quantity: 2
+        validate_certs: no
+        discovery_protocol: lldp
+        discovery_operation: both
+        state: present
+#        health_check:
+#          teaming_failover: true
+#          vlan_mtu: true
+      delegate_to: localhost
