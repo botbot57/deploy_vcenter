@@ -1,0 +1,13 @@
+switch_vds: dvSwitch
+version_vds: 7.0.3
+migrate_switch_name: dvSwitch
+migrate_portgroup_name: vlan0
+
+portgroups:
+  - name: "vlan0"
+    vlan_id: 0
+  - name: "vlan20"
+    vlan_id: 20
+  - name: "vlan30"
+    vlan_id: 30
+
