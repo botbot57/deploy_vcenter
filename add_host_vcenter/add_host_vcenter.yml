@@ -1,0 +1,34 @@
+---
+- name: create cluster
+  hosts: localhost
+  gather_facts: no
+  vars_files:
+    - vars.yml
+    - var_host.yml
+  tasks:
+    - name: Add ESXi Host to vCenter
+      community.vmware.vmware_host:
+        hostname: '{{ vcenter_hostname }}'
+        username: '{{ vcenter_username }}'
+        password: '{{ vcenter_password }}'
+        validate_certs: no
+        datacenter_name: "{{ datacenter_name }}"
+        cluster_name: "{{ cluster_name }}"
+        esxi_hostname: '{{ item.ip }}'
+        esxi_username: '{{ esxi_username }}'
+        esxi_password: '{{ esxi_password }}'
+        state: present
+      delegate_to: localhost
+      loop: "{{ host_esxi }}"
+    - name: Exit  Maintenance Mode
+      community.vmware.vmware_maintenancemode:
+        hostname: "{{ vcenter_hostname }}"
+        username: "{{ vcenter_username }}"
+        password: "{{ vcenter_password }}"
+        esxi_hostname: "{{ item.ip }}"
+        evacuate: true
+        validate_certs: no
+        timeout: 3600
+        state: absent
+      loop: "{{ host_esxi }}"
+      delegate_to: localhost
