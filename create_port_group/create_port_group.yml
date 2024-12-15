@@ -1,0 +1,20 @@
+- name: Create Distributed Port Group
+  hosts: localhost
+  gather_facts: no
+  vars_files:
+    - vars.yml
+    - var_vds.yml
+  tasks:
+    - name: Create a Distributed Port Group
+      community.vmware.vmware_dvs_portgroup:
+        hostname: "{{ vcenter_hostname }}"
+        username: "{{ vcenter_username }}"
+        password: "{{ vcenter_password }}"
+        validate_certs: no
+        port_binding: static
+        switch_name: "{{ switch_vds }}"
+        portgroup_name: "{{ item.name }}"
+        vlan_id: "{{ item.vlan_id }}"
+        state: present
+      loop: '{{ portgroups }}'
+
