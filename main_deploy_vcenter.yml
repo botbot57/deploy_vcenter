@@ -1,0 +1,9 @@
+- import_playbook: deploy_vcenter.yml
+- import_playbook: verify_vcenter.yml
+- import_playbook: create_datacenter.yml
+- import_playbook: create_cluter.yml
+- import_playbook: create_vds.yml
+- import_playbook: create_port_group.yml
+- import_playbook: add_host_vcenter.yml
+- import_playbook: add_host_vds.yml
+- import_playbook: create_foulder.yml
