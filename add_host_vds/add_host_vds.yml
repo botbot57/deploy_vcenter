@@ -6,7 +6,7 @@
     - var_host.yml
     - var_vds.yml
   tasks:
-    - name: Add ESXi hosts to vSphere Distributed Switch (VDS)
+    - name: Add ESXi hosts to vSphere Distributed Switch (VDS)      #add vmnic 1 cua host vao vds
       community.vmware.vmware_dvs_host:
         hostname: "{{ vcenter_hostname }}"
         username: "{{ vcenter_username }}"
@@ -18,7 +18,7 @@
             vmnic1
       register: add_hosts_result
       loop: '{{ host_esxi }}'
-    - name: Migrate Management vmk
+    - name: Migrate Management vmk     # migrate vmk0 tu standard switch sang vds
       community.vmware.vmware_migrate_vmk:
         hostname: "{{ vcenter_hostname }}"
         username: "{{ vcenter_username }}"
@@ -33,16 +33,17 @@
       delegate_to: localhost
       loop: '{{ host_esxi }}'
 
-#    - name: Add vmnic0 to VDS
-#      community.vmware.vmware_dvs_host:
-#        hostname: "{{ vcenter_hostname }}"
-#        username: "{{ vcenter_username }}"
-#        password: "{{ vcenter_password }}"
-#        validate_certs: no
-#        switch_name: "dvSwitch"
-#        esxi_hostname: '{{ item.ip }}'
-#        vmnics:
-#          - vmnic0
-#      register: add_hosts_result
-#      loop: '{{ host_esxi }}'
+    - name: Add vmnic0 to VDS # them not chan con lai vao vds
+      community.vmware.vmware_dvs_host:
+        hostname: "{{ vcenter_hostname }}"
+        username: "{{ vcenter_username }}"
+        password: "{{ vcenter_password }}"
+        validate_certs: no
+        switch_name: "dvSwitch"
+        esxi_hostname: '{{ item.ip }}'
+        vmnics:
+          - vmnic1
+          - vmnic0  
+      register: add_hosts_result
+      loop: '{{ host_esxi }}'
 
