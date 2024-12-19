@@ -5,7 +5,7 @@
   - var_vcenter.yml
   - vars.yml
   tasks:
-    - name: Verify vCenter is reachable
+    - name: Verify vCenter is reachable  # kiem tra khi nao vcenter khoi dong xong dich vu thi moi sang buoc tiep theo
       uri:
         url: "https://{{ vcenter_address }}"
         method: GET
@@ -15,4 +15,4 @@
       register: vcenter_status
       retries: 120
       delay: 10
-      until: vcenter_status.status == 200
+      until: vcenter_status.status == 200   
