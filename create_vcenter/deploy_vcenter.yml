@@ -16,7 +16,7 @@
         ovf: '{{ vcsa_ova_file }}'
         wait_for_ip_address: true
         validate_certs: no
-        inject_ovf_env: true
+        inject_ovf_env: true      # them thong tin cac bien va tham so cau hinh vao moi truong may ao
         datastore: '{{ datastore }}'
         networks: "{u'Network 1':u'{{vlan_vcenter}}'}"
         properties:
