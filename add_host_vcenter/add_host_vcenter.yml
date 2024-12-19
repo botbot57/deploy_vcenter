@@ -20,7 +20,7 @@
         state: present
       delegate_to: localhost
       loop: "{{ host_esxi }}"
-    - name: Exit  Maintenance Mode
+    - name: Exit  Maintenance Mode    # Thoat khoi mode maintenance
       community.vmware.vmware_maintenancemode:
         hostname: "{{ vcenter_hostname }}"
         username: "{{ vcenter_username }}"
