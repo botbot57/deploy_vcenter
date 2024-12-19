@@ -13,6 +13,6 @@
         password: "{{ vcenter_password }}"
         validate_certs: false
       register: vcenter_status
-      retries: 120
-      delay: 10
+      retries: 120 # lap lai 120 lan
+      delay: 10 # 10s thuc hien get 1 lan 
       until: vcenter_status.status == 200   
