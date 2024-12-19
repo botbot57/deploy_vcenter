@@ -11,5 +11,5 @@ net_gateway: '10.2.220.253'
 dns_servers: '10.2.220.15'
 domain: 'local'
 vcsa_size: 'tiny'
-vcsa_ova_file: '/root/VMware-vCenter-Server-Appliance-8.0.1.00200-21860503_OVF10.ova'
+vcsa_ova_file: '/root/VMware-vCenter-Server-Appliance-8.0.1.00200-21860503_OVF10.ova'  #Duong dan chưa file OVA cua vcenter tren may chu ansible
 
